@@ -21,7 +21,7 @@
 ; Film -> boolean
 ; Takes in a film and returns true if the film is a drama more than 150 minutes
 ;   OR
-;   was nominated for an Oscar and has a rating of NC-13 or NR
+;   was nominated for an Oscar and has a rating of NC-17 or NR
 (define (high-brow? F)
   (or
    (and
