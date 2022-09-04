@@ -24,13 +24,19 @@
 ;   was nominated for an Oscar and has a rating of NC-17 or NR
 (define (high-brow? F)
   (or
-   (and
-    (equal? (film-genre F) "Drama")
-    (> (film-running-time F) 150))
-   (and
-    (>= (film-nominations F) 1)
-    (or (equal? (film-rating F) "NC-17") (equal? (film-rating F) "NR")))
-      ))
+    (and
+      (equal? (film-genre F) "Drama")
+      (> (film-running-time F) 150)
+    )
+    (and
+      (>= (film-nominations F) 1)
+      (or
+        (equal? (film-rating F) "NC-17")
+        (equal? (film-rating F) "NR")
+      )
+    )
+  )
+)
 
 (check-expect (high-brow? F1) false)
 (check-expect (high-brow? F2) false)
@@ -59,28 +65,40 @@
 ; takes in a film and a date and determines if the film was opened before or after the given date
 
 (define (opened-after? Film Date)
-  (opened-after-helper (film-opening-date Film) Date))
+  (greater?
+    (film-opening-date Film)
+    Date
+  )
+)
 
 ; HELPER FUNCTION
 ; (Date Date) -> Boolean
-; Takes the date from the film in opened-after and the specified date and determines whether the film was opened before or after the given date
-(define (opened-after-helper movie-date Date)
-  (cond[(> (date-year movie-date) (date-year Date)) true]
-       [(< (date-year movie-date) (date-year Date)) false]
+; Compares the two dates and return true if the first date is after the second date
+(define (greater? D1 D2)
+  (cond[(> (date-year D1) (date-year D2)) true]
+       [(< (date-year D1) (date-year D2)) false]
        [else
-        (cond[(> (date-month movie-date) (date-month Date)) true]
-             [(< (date-month movie-date) (date-month Date)) false]
-             [else
-              (cond[(> (date-day movie-date) (date-day Date)) true]
-                   [(< (date-day movie-date) (date-day Date)) false]
-                   [else false])]
-                 )]
-       ))
+         (cond[(> (date-month D1) (date-month D2)) true]
+              [(< (date-month D1) (date-month D2)) false]
+              [else
+                (> (date-day D1) (date-day D2))]
+         )
+       ]
+  )
+)
+
+(check-expect (greater? (make-date 2022 6 17) (make-date 2022 6 16)) true)
+(check-expect (greater? (make-date 2022 7  1) (make-date 2022 6 16)) true)
+(check-expect (greater? (make-date 2023 1  1) (make-date 2022 6 16)) true)
+(check-expect (greater? (make-date 2022 6 16) (make-date 2022 6 16)) false)
+(check-expect (greater? (make-date 2022 6 15) (make-date 2022 6 16)) false)
+(check-expect (greater? (make-date 2022 5 17) (make-date 2022 6 16)) false)
+(check-expect (greater? (make-date 2021 7 18) (make-date 2022 6 16)) false)
 
 (define D3- (make-date 2022 6 16))
 (define D4- (make-date 2019 3 21))
-(define D6 (make-date 2013 11 3))
-(define D7 (make-date 2018 3 22))
+(define D6  (make-date 2013 11 3))
+(define D7  (make-date 2018 3 22))
 
 (check-expect (opened-after? F2 D1) false)
 (check-expect (opened-after? F1 D2) true)
@@ -89,21 +107,3 @@
 (check-expect (opened-after? F5 D6) true)
 (check-expect (opened-after? F1 D7) false)
 (check-expect (opened-after? F2 D2) false)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
