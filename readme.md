@@ -13,4 +13,4 @@ git checkout -b feature/randy-hw1
 # H2 GIT Commit
 
 # H2 GIT Push
-git push https://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@github.com/Scandroid-Monochrome/Randy-Zhang-Nguyen-Vo-HW1.git
+git push https://Token@github.com/Scandroid-Monochrome/Randy-Zhang-Nguyen-Vo-HW1.git
