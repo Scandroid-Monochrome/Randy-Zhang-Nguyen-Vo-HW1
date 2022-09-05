@@ -60,6 +60,7 @@
 (check-expect (update-nominations F3 2) (make-film "Johnnie's Jet" "Science Fiction" "PG-13" 124 D3 2))
 (check-expect (update-nominations F1 4) (make-film "Yazzo's Wild Adventures" "Adventure" "PG" 115 D1 4))
 (check-expect (update-nominations F4 3) (make-film "Samantha and the Tea Seller" "Drama" "NC-17" 165 D4 3))
+(check-expect (update-nominations F5 3) (make-film "Starships Fly" "Science Fiction" "NR" 134 D5 3))
 
 ; (film, date) -> boolean
 ; takes in a film and a date and determines if the film was opened before or after the given date
