@@ -78,13 +78,9 @@
 (define (greater? D1 D2)
   (cond[(> (date-year D1) (date-year D2)) true]
        [(< (date-year D1) (date-year D2)) false]
-       [else
-         (cond[(> (date-month D1) (date-month D2)) true]
-              [(< (date-month D1) (date-month D2)) false]
-              [else
-                (> (date-day D1) (date-day D2))]
-         )
-       ]
+       [(> (date-month D1) (date-month D2)) true]
+       [(< (date-month D1) (date-month D2)) false]
+       [else (> (date-day D1) (date-day D2))]
   )
 )
 
