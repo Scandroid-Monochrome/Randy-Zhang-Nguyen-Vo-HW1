@@ -2,6 +2,9 @@
 ;; about the language level of this file in a form that our tools can easily process.
 #reader(lib "htdp-beginner-reader.ss" "lang")((modname |HW 1 Programming With Structs|) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f () #f)))
 ; Date struct: stores a date in year/month/day form
+;;year: year of date
+;;month: month of date
+;;day: day of date
 (define-struct date (year month day))
 (define D1 (make-date 2018 3 14))
 (define D2 (make-date 2016 7 28))
@@ -9,48 +12,60 @@
 (define D4 (make-date 2019 4 21))
 (define D5 (make-date 2013 11 8))
 
-; Film struct: stores the neccessary info about a film, including the name, genre, rating, running time(in minutes), opening date, and how many Oscars it has
 (define-struct film (title genre rating running-time opening-date nominations))
+;;interp: represents a film constructor where
+;; tile: film's tile
+;; genre: film's genre
+;; rating: film's rating
+;; running-time : the runnig-time of the film
+;; openig-date : the date the film opened at the theater
+;; nominationsL : the number of oscar nominations the film recieved
 (define F1 (make-film "Yazzo's Wild Adventures" "Adventure" "PG" 115 D1 3))
 (define F2 (make-film "Sally and the Haunted Balloon" "Horror" "PG-13" 157 D2 4))
 (define F3 (make-film "Johnnie's Jet" "Science Fiction" "PG-13" 124 D3 1))
 (define F4 (make-film "Samantha and the Tea Seller" "Drama" "NC-17" 165 D4 0))
 (define F5 (make-film "Starships Fly" "Science Fiction" "NR" 134 D5 2))
+(define film1 (make-film 'passenger 'sci-fi 'PG-13 116 D1 4))
+(define film2 (make-film 'dad-im-sorry 'drama 'PG-13 128 D2 1))
+(define film3 ( make-film 'squid-game 'survial 'NR 63 D3 35))
 
 
-; Film -> boolean
-; Takes in a film and returns true if the film is a drama more than 150 minutes
-;   OR
-;   was nominated for an Oscar and has a rating of NC-17 or NR
+;;3
+;;film->boolean
+;;consume a film to produce a boolean if the film is a drama and has running time more than 150
+;or was nomianted and has rating of NC-17 AND NR
 (define (high-brow? F)
   (or
-    (and
-      (equal? (film-genre F) "Drama")
-      (> (film-running-time F) 150)
+   (and
+    (equal?(film-genre F)'drama)
+    (>(film-runningtime F) 150)
     )
-    (and
-      (>= (film-nominations F) 1)
-      (or
-        (equal? (film-rating F) "NC-17")
-        (equal? (film-rating F) "NR")
-      )
+   (and
+    (>=(film-nominations F)1)
+    (or
+     (equal? (film-rating F) 'NC-17)
+     (equal? (film-rating F) 'NR)
+     )
+    )
+   )
+  )
+(check-expect(high-brow? film1)false)
+(check-expect(high-brow? film2)false)
+(check-expect(high-brow? film3)true)
+
+;;4
+;;num num -> num
+;;consume number of nominatinos from 2 films and produce the total nominations of 2 films
+(define (total-nominations F1 F2)
+  (+(film-nominations F1)
+    (film-nominations F2)
     )
   )
-)
+(check-expect(total-nominations film1 film2)5)
+(check-expect(total-nominations film2 film3)36)
+(check-expect (total-nominations film1 film3)39)
 
-(check-expect (high-brow? F1) false)
-(check-expect (high-brow? F2) false)
-(check-expect (high-brow? F4) true)
-(check-expect (high-brow? F5) true)
-
-; (film, film) -> Number
-; Takes in two films and returns the sum of the Oscar nominations for both films
-(define (total-nominations F1 F2)
-  (+ (film-nominations F1) (film-nominations F2)))
-
-(check-expect (total-nominations F2 F4) 4)
-(check-expect (total-nominations F3 F1) 4)
-
+;;5
 ; (film, Number) -> film
 ; Takes in a film and a number and produces a film with the entered number of oscar nominations
 (define (update-nominations film num-oscars)
