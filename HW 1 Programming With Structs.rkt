@@ -6,18 +6,21 @@
 
 ;;1
 ;;Date struct: stores a date in year/month/day form
+;; date (Natural Natural Natural)
+(define-struct date (year month day))
 ;;year: year of date
 ;;month: month of date
 ;;day: day of date
-(define-struct date (year month day))
 (define D1 (make-date 2018 3 14))
 (define D2 (make-date 2016 7 28))
 (define D3 (make-date 2022 5 16))
 (define D4 (make-date 2019 4 21))
 (define D5 (make-date 2013 11 8))
 
+;; Film Struct: stores the neccessary information about a film
+;; film (string string string Number Date Natural)
 (define-struct film (title genre rating running-time opening-date nominations))
-;;interp: represents a film constructor where
+;; Info includes:
 ;; tile: film's tile
 ;; genre: film's genre
 ;; rating: film's rating
